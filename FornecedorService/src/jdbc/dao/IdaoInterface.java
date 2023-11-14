@@ -1,11 +1,28 @@
 package jdbc.dao;
 
 import java.util.ArrayList;
-import jdbc.model.Fornecedor;
+import jdbc.model.Medico;
+import jdbc.model.Paciente;
 
 public interface IdaoInterface {
-    public ArrayList<Fornecedor> consultar();
-    public Fornecedor consultar(int id);
-    public Fornecedor cadastrar(Fornecedor forn);
-    public boolean excluir(int id);
+    
+    //Medicos
+
+    public ArrayList<Medico> consultarM();
+
+    public Medico consultarM(int ID);
+
+    public Medico cadastrarM(Medico med);
+
+    public boolean excluirM(int ID);
+    
+    //Pacientes
+
+    public ArrayList<Paciente> consultarP();
+
+    public Paciente consultarP(int ID);
+
+    public Paciente cadastrarP(Paciente pac);
+
+    public boolean excluirP(int ID);
 }
