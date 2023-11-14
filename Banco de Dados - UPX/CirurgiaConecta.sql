@@ -17,13 +17,6 @@ CREATE TABLE Pacientes (
 );
 
 
-CREATE TABLE Atendentes (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(255),
-    NomeUsuario VARCHAR(50),
-    Senha VARCHAR(255)
-);
-
 
 CREATE TABLE Medicos (
     ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +31,6 @@ CREATE TABLE EtapasCirurgia (
     Descricao VARCHAR(50),
     IDPaciente INT,
     IDMédico INT,
-    DataHoraEtapa DATETIME, 
     FOREIGN KEY (IDPaciente) REFERENCES Pacientes(ID),
     FOREIGN KEY (IDMédico) REFERENCES Medicos(ID)
 );
@@ -57,17 +49,6 @@ CREATE TABLE ProgressoCirurgia (
     FOREIGN KEY (IDMédico) REFERENCES Medicos(ID)
 );
 
-INSERT INTO Atendentes (Nome, NomeUsuario, Senha)
-VALUES ('Maria Silva', 'Maria_Silva', '123');
-
-INSERT INTO Atendentes (Nome, NomeUsuario, Senha)
-VALUES ('João Santos', 'Joao_Santos', '123');
-
-INSERT INTO Atendentes (Nome, NomeUsuario, Senha)
-VALUES ('Ana Lima', 'Ana_Lima', '123');
-
-INSERT INTO Atendentes (Nome, NomeUsuario, Senha)
-VALUES ('Pedro Costa', 'Pedro_Costa', '123');
 
 INSERT INTO Medicos (Nome, NomeUsuario, Senha)
 VALUES ('Carla Pereira Santos', 'Carla_Santos', '123');
