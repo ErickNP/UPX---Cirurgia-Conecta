@@ -19,7 +19,7 @@ public class PacienteDao implements IdaoInterface {
     @Override
     public ArrayList<Paciente> consultarP() {
         ArrayList<Paciente> lstPacientes = new ArrayList<>();
-        String sql = "SELECT * FROM Medicos;";
+        String sql = "SELECT * FROM Pacientes;";
         PreparedStatement comando;
         ResultSet resultado;
         try {
