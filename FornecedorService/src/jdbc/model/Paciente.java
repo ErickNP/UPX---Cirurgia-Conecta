@@ -10,7 +10,7 @@ public class Paciente {
     private Date data;
     private String convenio;
     private int numeroConv;
-    private int telefone;
+    private String telefone;
     private String email;
     private String cidade;
     private String cep;
@@ -18,7 +18,7 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(int id, String nome, String rg, Date data, String convenio, int numeroConv, int telefone, String email, String cidade, String cep) {
+    public Paciente(int id, String nome, String rg, Date data, String convenio, int numeroConv, String telefone, String email, String cidade, String cep) {
         this.id = id;
         this.nome = nome;
         this.rg = rg;
@@ -79,11 +79,11 @@ public class Paciente {
         this.numeroConv = numeroConv;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 

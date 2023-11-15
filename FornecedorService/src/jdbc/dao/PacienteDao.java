@@ -34,7 +34,7 @@ public class PacienteDao implements IdaoInterface {
                 p.setData(resultado.getDate("DataNasc"));
                 p.setConvenio(resultado.getString("Convenio"));
                 p.setNumeroConv(resultado.getInt("NumeroConv"));
-                p.setTelefone(resultado.getInt("Telefone"));
+                p.setTelefone(resultado.getString("Telefone"));
                 p.setEmail(resultado.getString("Email"));
                 p.setCidade(resultado.getString("Cidade"));
                 p.setCep(resultado.getString("CEP"));
@@ -49,6 +49,37 @@ public class PacienteDao implements IdaoInterface {
     @Override
     public Paciente consultarP(int ID) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public Paciente consultarP(String email, String rg){
+        Paciente p = new Paciente();
+        String sql = "select * from pacientes where email = ? and rg = ?";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultado;
+        try {
+            preparedStatement = conn.prepareCall(sql);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, rg);
+            resultado = preparedStatement.executeQuery();
+            if (resultado.next()) {
+                p.setId(resultado.getInt("ID"));
+                p.setNome(resultado.getString("Nome"));
+                p.setRg(resultado.getString("RG"));
+                p.setData(resultado.getDate("DataNasc"));
+                p.setConvenio(resultado.getString("Convenio"));
+                p.setNumeroConv(resultado.getInt("NumeroConv"));
+                p.setTelefone(resultado.getString("Telefone"));
+                p.setEmail(resultado.getString("Email"));
+                p.setCidade(resultado.getString("Cidade"));
+                p.setCep(resultado.getString("CEP"));
+                return p;
+            }else{
+                return null;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
