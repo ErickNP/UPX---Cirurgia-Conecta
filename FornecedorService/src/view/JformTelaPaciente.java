@@ -174,7 +174,7 @@ public class JformTelaPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotaoLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoLogoutActionPerformed
-        LoginPaciente ap = new LoginPaciente();
+        JformLogin ap = new JformLogin();
             this.setVisible(false);
             ap.setVisible(true);
     }//GEN-LAST:event_BotaoLogoutActionPerformed

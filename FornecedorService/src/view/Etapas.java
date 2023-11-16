@@ -64,9 +64,9 @@ public class Etapas extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableInfoPaciente = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        BotaoProgresso = new javax.swing.JButton();
+        BotaoSair = new javax.swing.JButton();
+        BotaoProcurar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -98,21 +98,21 @@ public class Etapas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TableInfoPaciente);
 
-        jButton1.setText("Etapas/Progresso");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotaoProgresso.setText("Etapas/Progresso");
+        BotaoProgresso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BotaoProgressoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sair");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BotaoSair.setText("Sair");
+        BotaoSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BotaoSairActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Procurar");
+        BotaoProcurar.setText("Procurar");
 
         jLabel2.setText("Pesquisar:");
 
@@ -167,13 +167,13 @@ public class Etapas extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(BotaoSair)
                         .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(LabelNomeMedico)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(BotaoProgresso)
                         .addGap(81, 81, 81))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -185,7 +185,7 @@ public class Etapas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(BotaoProcurar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -197,7 +197,7 @@ public class Etapas extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(BotaoProgresso)
                             .addComponent(LabelNomeMedico))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -207,12 +207,12 @@ public class Etapas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(BotaoProcurar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(BotaoSair)
                     .addComponent(BotaoCadastrar)
                     .addComponent(BotaoEditaCadastro)
                     .addComponent(jButton6))
@@ -220,16 +220,21 @@ public class Etapas extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BotaoProgressoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoProgressoActionPerformed
         var linha = TableInfoPaciente.getSelectedRow();
-        System.out.println(linha);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        var id = TableInfoPaciente.getModel().getValueAt(linha, 0).toString();
+        Progresso telaCliente = new Progresso(Integer.parseInt(id), idM);
+        telaCliente.setVisible(true);
+    }//GEN-LAST:event_BotaoProgressoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void BotaoSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSairActionPerformed
+            JformLogin ap = new JformLogin();
+            this.setVisible(false);
+            ap.setVisible(true);
+    }//GEN-LAST:event_BotaoSairActionPerformed
 
     private void BotaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoCadastrarActionPerformed
         System.out.println(idM);   
@@ -286,11 +291,11 @@ public class Etapas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoCadastrar;
     private javax.swing.JButton BotaoEditaCadastro;
+    private javax.swing.JButton BotaoProcurar;
+    private javax.swing.JButton BotaoProgresso;
+    private javax.swing.JButton BotaoSair;
     private javax.swing.JLabel LabelNomeMedico;
     private javax.swing.JTable TableInfoPaciente;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

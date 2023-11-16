@@ -112,4 +112,33 @@ public class EtapasPacienteDao {
             throw new RuntimeException(err.getMessage());
         }
     }
+    
+        public boolean cadastrarProgresso(int idEtapa, int idPac, int idM, String obs){
+        String sql = "insert into progressocirurgia (\n" +
+                    "    IDEtapaCirurgia,\n" +
+                    "    DataHoraInicio, \n" +
+                    "    Observacoes,\n" +
+                    "    IDPaciente,\n" +
+                    "    IDMédico) values (?, now(), ?, ?, ?);";
+        PreparedStatement comando;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setInt(1, idEtapa);
+            comando.setString(2, obs);
+            comando.setInt(3, idPac);
+            comando.setInt(4, idM);
+            int linhasAfetadas = comando.executeUpdate();
+            
+            if (linhasAfetadas > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro.getMessage());
+        }
+            
+    }
 }
