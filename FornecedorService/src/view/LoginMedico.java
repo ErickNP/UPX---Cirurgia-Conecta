@@ -606,7 +606,7 @@ public class LoginMedico extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        jPanel10.setBackground(new java.awt.Color(0, 51, 255));
+        jPanel10.setBackground(new java.awt.Color(153, 153, 255));
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel28.setText("Cirurgia Conecta");
