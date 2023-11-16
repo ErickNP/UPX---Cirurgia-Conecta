@@ -1,18 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
+import java.text.SimpleDateFormat;
+import jdbc.dao.PacienteDao;
+import javax.swing.JOptionPane;
+import jdbc.dao.EtapasPacienteDao;
+import jdbc.model.Paciente;
 /**
  *
  * @author liggia
  */
 public class CadastroPaciente extends javax.swing.JFrame {
-
+   private int codCliente = 0;
+    private PacienteDao servico = new PacienteDao();
+    private EtapasPacienteDao servicoEtapas = new EtapasPacienteDao();
+    private int MedicoId = 0;
+    private Etapas telaPai;
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    /**
+     * Creates new form Cadastrar
+     * @param cod
+     * @param tela
+     * @param idM
+     */
+    public CadastroPaciente(int cod, Etapas tela, int idM){
+        this.codCliente = cod;
+         this.telaPai = tela;
+         this.MedicoId = idM;
+         
+        initComponents();
+        if (this.codCliente == 0) {
+            this.setTitle("Cadastro de Cliente");
+        }
+        else{
+            this.setTitle("Alteração de Cliente");
+            var c = servico.consultarP(this.codCliente);
+            InputNome.setText(c.getNome());
+            InputEmail.setText(c.getEmail());
+            InputTelefone.setText(c.getTelefone());
+            InputCEP.setText(c.getCep());
+            InputCarteirinha.setText(Integer.toString(c.getNumeroConv()));
+            InputCidade.setText(c.getCidade());
+            InputConvenio.setText(c.getConvenio());
+            //String dataComoString = formato.format(c.getData());
+            InputDataNascimento.setText(c.getData());
+            InputRG.setText(c.getRg());
+        }
+    }
+    
+    
     /**
      * Creates new form CadastroPaciente
+     * @param idM
      */
+    public CadastroPaciente(int idM) {
+    this.MedicoId = idM;
+        initComponents();
+    }
+    
     public CadastroPaciente() {
         initComponents();
     }
@@ -62,6 +106,11 @@ public class CadastroPaciente extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagem/Paciente.png"))); // NOI18N
 
         jButton1.setText("Salvar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Cadastro");
@@ -94,6 +143,10 @@ public class CadastroPaciente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(101, 101, 101))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,6 +170,10 @@ public class CadastroPaciente extends javax.swing.JFrame {
                                 .addGap(198, 198, 198)
                                 .addComponent(jLabel5)))
                         .addGap(78, 78, 78))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(283, 283, 283))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -143,15 +200,7 @@ public class CadastroPaciente extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(InputCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(283, 283, 283))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(101, 101, 101))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +248,36 @@ public class CadastroPaciente extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Paciente f = new Paciente(this.codCliente, 
+                InputNome.getText(), 
+                InputRG.getText(),
+                InputDataNascimento.getText(),
+                InputConvenio.getText(),
+                Integer.parseInt(InputCarteirinha.getText()),
+                InputTelefone.getText(),
+                 InputEmail.getText(), 
+                InputCidade.getText(),
+                InputCEP.getText());
+        
+        if (this.codCliente == 0) {
+            servico.cadastrarP(f);
+            Paciente p2 = servico.pegarID(f.getNome());
+            servicoEtapas.cadastrarProgresso(p2.getId(), this.MedicoId);
+            JOptionPane.showMessageDialog(this, "Inserido com sucesso!");
+        }
+        else{
+            //alterar o registro
+            servico.alterar(f, this.codCliente);
+            JOptionPane.showMessageDialog(this, "Alterado com sucesso!");
+
+        }
+        this.telaPai.atualizarTela();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

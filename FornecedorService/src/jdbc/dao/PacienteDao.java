@@ -19,7 +19,7 @@ public class PacienteDao implements IdaoInterface {
     @Override
     public ArrayList<Paciente> consultarP() {
         ArrayList<Paciente> lstPacientes = new ArrayList<>();
-        String sql = "SELECT * FROM Medicos;";
+        String sql = "SELECT * FROM Pacientes;";
         PreparedStatement comando;
         ResultSet resultado;
         try {
@@ -31,7 +31,7 @@ public class PacienteDao implements IdaoInterface {
                 p.setId(resultado.getInt("ID"));
                 p.setNome(resultado.getString("Nome"));
                 p.setRg(resultado.getString("RG"));
-                p.setData(resultado.getDate("DataNasc"));
+                p.setData(resultado.getString("DataNasc"));
                 p.setConvenio(resultado.getString("Convenio"));
                 p.setNumeroConv(resultado.getInt("NumeroConv"));
                 p.setTelefone(resultado.getString("Telefone"));
@@ -61,10 +61,10 @@ public class PacienteDao implements IdaoInterface {
                 p.setId(resultado.getInt("ID"));
                 p.setNome(resultado.getString("Nome"));
                 p.setRg(resultado.getString("RG"));
-                p.setData(resultado.getDate("DataNasc"));
+                p.setData(resultado.getString("DataNasc"));
                 p.setConvenio(resultado.getString("Convenio"));
                 p.setNumeroConv(resultado.getInt("NumeroConv"));
-                p.setTelefone(resultado.getInt("Telefone"));
+                p.setTelefone(resultado.getString("Telefone"));
                 p.setEmail(resultado.getString("Email"));
                 p.setCidade(resultado.getString("Cidade"));
                 p.setCep(resultado.getString("CEP"));
@@ -91,7 +91,7 @@ public class PacienteDao implements IdaoInterface {
                 p.setId(resultado.getInt("ID"));
                 p.setNome(resultado.getString("Nome"));
                 p.setRg(resultado.getString("RG"));
-                p.setData(resultado.getDate("DataNasc"));
+                p.setData(resultado.getString("DataNasc"));
                 p.setConvenio(resultado.getString("Convenio"));
                 p.setNumeroConv(resultado.getInt("NumeroConv"));
                 p.setTelefone(resultado.getString("Telefone"));
@@ -112,15 +112,14 @@ public class PacienteDao implements IdaoInterface {
     public Paciente cadastrarP(Paciente pac) {
         String sql = "INSERT INTO Pacientes (Nome, RG, DataNasc, Convenio, NumeroConv, Telefone, Email, Cidade, CEP) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement comando;
-
         try {
             comando = conn.prepareStatement(sql);
             comando.setString(1, pac.getNome());
             comando.setString(2, pac.getRg());
-            comando.setDate(3, pac.getData());
+            comando.setString(3, pac.getData());
             comando.setString(4, pac.getConvenio());
             comando.setInt(5, pac.getNumeroConv());
-            comando.setInt(6, pac.getTelefone());
+            comando.setString(6, pac.getTelefone());
             comando.setString(7, pac.getEmail());
             comando.setString(8, pac.getCidade());
             comando.setString(9, pac.getCep());
@@ -129,7 +128,6 @@ public class PacienteDao implements IdaoInterface {
             if (linhasAfetadas == 0) {
                 throw new SQLException("Falha ao cadastrar o Paciente.");
             }
-
             return pac;
         } catch (SQLException err) {
             throw new RuntimeException(err.getMessage());
@@ -157,7 +155,88 @@ public class PacienteDao implements IdaoInterface {
             throw new RuntimeException(err.getMessage());
         }
     }
+    
+    public boolean alterar(Paciente pac,  int id){
+        String sql = "update Pacientes set Nome = ?, RG = ?, DataNasc = ?, Convenio = ?, NumeroConv = ?, Telefone = ?, Email =? , Cidade = ?, CEP = ? where id = ?;";
+        PreparedStatement comando;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setString(1, pac.getNome());
+            comando.setString(2, pac.getRg());
+            comando.setString(3, pac.getData());
+            comando.setString(4, pac.getConvenio());
+            comando.setInt(5, pac.getNumeroConv());
+            comando.setString(6, pac.getTelefone());
+            comando.setString(7, pac.getEmail());
+            comando.setString(8, pac.getCidade());
+            comando.setString(9, pac.getCep());
+            comando.setInt(10, id);
+            int linhasAfetadas = comando.executeUpdate();
+            
+            if (linhasAfetadas > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro.getMessage());
+        }
+    }
 
+        public Paciente consultarByMID(int ID) {
+        String sql = "SELECT * FROM Pacientes WHERE ID = ?;";
+        PreparedStatement comando;
+        ResultSet resultado;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setInt(1, ID);
+            resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Paciente p = new Paciente();
+                p.setId(resultado.getInt("ID"));
+                p.setNome(resultado.getString("Nome"));
+                p.setRg(resultado.getString("RG"));
+                p.setData(resultado.getString("DataNasc"));
+                p.setConvenio(resultado.getString("Convenio"));
+                p.setNumeroConv(resultado.getInt("NumeroConv"));
+                p.setTelefone(resultado.getString("Telefone"));
+                p.setEmail(resultado.getString("Email"));
+                p.setCidade(resultado.getString("Cidade"));
+                p.setCep(resultado.getString("CEP"));
+                return p;
+            } else {
+                return null;
+            }
+        } catch (SQLException err) {
+            throw new RuntimeException(err.getMessage());
+        }
+    }
+        
+        
+    public Paciente pegarID(String nome) {
+        String sql = "SELECT * FROM Pacientes WHERE nome = ?;";
+        PreparedStatement comando;
+        ResultSet resultado;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setString(1, nome);
+            resultado = comando.executeQuery();
+
+            if (resultado.next()) {
+                Paciente p = new Paciente();
+                p.setId(resultado.getInt("ID"));
+                p.setNome(resultado.getString("Nome"));
+                return p;
+            } else {
+                return null;
+            }
+        } catch (SQLException err) {
+            throw new RuntimeException(err.getMessage());
+        }
+    }
     //Herdados devido a declaração de interface
     @Override
     public ArrayList<Medico> consultarM() {

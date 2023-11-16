@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import jdbc.model.EtapasPaciente;
+import jdbc.model.Paciente;
 
 /**
  *
@@ -46,6 +47,67 @@ public class EtapasPacienteDao {
                 lstEtapas.add(m);
             }
             return lstEtapas;
+        } catch (SQLException err) {
+            throw new RuntimeException(err.getMessage());
+        }
+    }
+    
+    public boolean cadastrarProgresso(int idPac, int idM){
+        String sql = "insert into progressocirurgia (\n" +
+                    "    IDEtapaCirurgia,\n" +
+                    "    DataHoraInicio, \n" +
+                    "    Observacoes,\n" +
+                    "    IDPaciente,\n" +
+                    "    IDMédico) values (1, now(), '', ?, ?);";
+        PreparedStatement comando;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setInt(1, idPac);
+            comando.setInt(2, idM);
+            int linhasAfetadas = comando.executeUpdate();
+            
+            if (linhasAfetadas > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro.getMessage());
+        }
+            
+    }
+    
+    public ArrayList<Paciente> consultarPacientes(int idM) {
+        ArrayList<Paciente> lstMedicos = new ArrayList<>();
+        String sql = "select distinct m.Nome as medico, pa.* from progressocirurgia as p \n" +
+                        "join medicos as m on p.IDMédico = m.ID\n" +
+                        "join pacientes as pa on p.IDPaciente = pa.ID\n" +
+                        "where m.ID = ?;";
+        PreparedStatement comando;
+        ResultSet resultado;
+        try {
+            comando = conn.prepareStatement(sql);
+            comando.setInt(1, idM);
+            resultado = comando.executeQuery();
+
+            while (resultado.next()) {
+                Paciente p = new Paciente();
+                p.setId(resultado.getInt("ID"));
+                p.setNome(resultado.getString("Nome"));
+                p.setRg(resultado.getString("RG"));
+                p.setData(resultado.getString("DataNasc"));
+                p.setConvenio(resultado.getString("Convenio"));
+                p.setNumeroConv(resultado.getInt("NumeroConv"));
+                p.setTelefone(resultado.getString("Telefone"));
+                p.setEmail(resultado.getString("Email"));
+                p.setCidade(resultado.getString("Cidade"));
+                p.setCep(resultado.getString("CEP"));
+                p.setMedico(resultado.getString("medico"));
+                lstMedicos.add(p);
+            }
+            return lstMedicos;
         } catch (SQLException err) {
             throw new RuntimeException(err.getMessage());
         }

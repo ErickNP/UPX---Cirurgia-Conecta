@@ -5,7 +5,8 @@
 package view;
 
 import javax.swing.JOptionPane;
-import view.JformTelaMedico;
+import jdbc.dao.MedicoDao;
+import jdbc.model.Medico;
 /**
  * 
  *
@@ -13,9 +14,12 @@ import view.JformTelaMedico;
  */
 public class LoginMedico extends javax.swing.JFrame {
 
-    public boolean isAutenticado(String login, String senha){
+     private MedicoDao service = new MedicoDao();
+    
+    public Medico isAutenticado(String login, String senha){
         System.out.println("entrei");
-        return login.equals("eu") && senha.equals("123");
+        Medico p = service.consultarM(login, senha);
+        return p;
     }
 
     /**
@@ -727,16 +731,16 @@ public class LoginMedico extends javax.swing.JFrame {
     private void BotaoAcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAcessarActionPerformed
         String login = LoginInput.getText();
         String senha = new String(SenhaInput.getPassword());
-        System.out.println(login);
-        System.out.println(senha);
-        boolean podeEntrar = isAutenticado(login, senha);
-        System.out.println(podeEntrar);
-        if(podeEntrar){
-            JformTelaMedico ap = new JformTelaMedico();
+       Medico m = isAutenticado(login, senha);
+        
+        if(m != null){
+            Etapas ap = new Etapas(m);
             this.setVisible(false);
             ap.setVisible(true);
         }else{
            JOptionPane.showMessageDialog(null, "Senha ou Usuario incorretos");
+//           LoginInput.setText("");
+//           SenhaInput.setText("");
         }
     }//GEN-LAST:event_BotaoAcessarActionPerformed
 

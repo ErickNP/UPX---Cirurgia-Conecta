@@ -19,6 +19,10 @@ public class JformTelaMedico extends javax.swing.JFrame {
     public JformTelaMedico() {
         initComponents();
     }
+    
+    public JformTelaMedico(int id) {
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

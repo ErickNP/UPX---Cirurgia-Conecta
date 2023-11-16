@@ -142,6 +142,7 @@ public class MedicoDao implements IdaoInterface {
             throw new RuntimeException(err.getMessage());
         }
     }
+    
 
     //Herdados devido a declaração de interface
     @Override

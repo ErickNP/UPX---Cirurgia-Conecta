@@ -1,13 +1,12 @@
 package jdbc.model;
 
-import java.sql.Date;
 
 public class Paciente {
 
     private int id;
     private String nome;
     private String rg;
-    private Date data;
+    private String data;
     private String convenio;
     private int numeroConv;
     private String telefone;
@@ -15,10 +14,19 @@ public class Paciente {
     private String cidade;
     private String cep;
 
+    public String getMedico() {
+        return medico;
+    }
+
+    public void setMedico(String medico) {
+        this.medico = medico;
+    }
+    private String medico;
+
     public Paciente() {
     }
 
-    public Paciente(int id, String nome, String rg, Date data, String convenio, int numeroConv, String telefone, String email, String cidade, String cep) {
+    public Paciente(int id, String nome, String rg, String data, String convenio, int numeroConv, String telefone, String email, String cidade, String cep) {
         this.id = id;
         this.nome = nome;
         this.rg = rg;
@@ -55,11 +63,11 @@ public class Paciente {
         this.rg = rg;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
